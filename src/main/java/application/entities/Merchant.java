@@ -116,6 +116,7 @@ public class Merchant {
     public void setMerchantType(String merchantType) {
         this.merchantType = merchantType;
     }
+
     public boolean isActive() {
         return isActive;
     }

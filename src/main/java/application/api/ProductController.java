@@ -1,13 +1,12 @@
 package application.api;
 
 
-import application.entities.Merchant;
 import application.entities.Product;
 import application.services.MerchantService;
 import application.services.ProductService;
+import application.utilities.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -24,13 +23,9 @@ public class ProductController {
 
     @PostMapping("/add")
     public String addProduct(Authentication authentication, @RequestBody Product product) {
-        Optional<Merchant> merchant = ms.getMerchantByEmail(authentication.getName());
-        if (merchant.isPresent()) {
-            product.setMerchantId(merchant.get().getMerchantId());
-            ps.addProduct(product);
-            return "Product successfully added.";
-        }
-        else return "Something went wrong.";
+        product.setMerchantId(CurrentUser.get().getMerchantId());
+        ps.addProduct(product);
+        return "Product successfully added.";
     }
 
     @PostMapping("/{productId}/delete")
@@ -50,9 +45,7 @@ public class ProductController {
 
     @GetMapping("/all")
     public Iterable<Product> getAllMyProducts() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Optional<Merchant> merchant = ms.getMerchantByEmail(authentication.getName());
-        return ps.getMerchantsProducts(merchant.get().getMerchantId());
+        return ps.getMerchantsProducts(CurrentUser.get().getMerchantId());
     }
 
 }

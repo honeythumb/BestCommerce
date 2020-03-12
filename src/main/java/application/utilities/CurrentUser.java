@@ -16,6 +16,7 @@ public class CurrentUser {
         CurrentUser.service = service;
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public static Merchant get() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();

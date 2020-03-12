@@ -20,6 +20,6 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<Merchant> merchant = service.getMerchantByEmail(email);
         if (merchant.isPresent()) return merchant.map(MyUserDetails::new).get();
-        else throw new IllegalAccessError();
+        else throw new IllegalAccessError("User not found");
     }
 }
