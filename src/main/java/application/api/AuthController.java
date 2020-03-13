@@ -4,7 +4,6 @@ import application.entities.Merchant;
 import application.services.AuthService;
 import application.services.MerchantService;
 import application.services.TokenService;
-import application.utilities.CurrentUser;
 import application.utilities.comm.LoginRq;
 import application.utilities.comm.LoginRs;
 import org.springframework.beans.factory.annotation.Autowired;
