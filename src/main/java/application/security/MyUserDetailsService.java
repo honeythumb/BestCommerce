@@ -1,6 +1,5 @@
 package application.security;
 
-import application.entities.Merchant;
 import application.services.MerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,8 +17,8 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Merchant> merchant = service.getMerchantByEmail(email);
-        if (merchant.isPresent()) return merchant.map(MyUserDetails::new).get();
-        else throw new IllegalAccessError("User not found");
+        return Optional.ofNullable(service.getMerchantByEmail(email))
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"))
+                .map(MyUserDetails::new).get();
     }
 }
